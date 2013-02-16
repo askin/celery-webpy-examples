@@ -1,8 +1,6 @@
 from celery.task import task
 from celery.task.http import HttpDispatchTask
 
-from sys import asd
-
 @task
 def add(x, y):
     print "I received %s %s" % (x, y)
@@ -35,3 +33,19 @@ def remoteDiff(x, y):
         url='http://localhost:8080/service/diff/%s/%s' % (x, y),
         method='GET')
     return res.get()
+
+@task
+def celeryAdd(x, y):
+    return x + y
+
+@task
+def celeryDiff(x, y):
+    return x - y
+
+@task
+def celeryMultiple(x, y):
+    return x * y
+
+@task
+def celerySquare(x):
+    return x * x
