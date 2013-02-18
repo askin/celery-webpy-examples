@@ -33,3 +33,8 @@ result = celeryAdd.apply_async((5, 2), countdown=10)
 print '5 + 2 = %s' % result.get()
 now = datetime.now()
 print '%02d:%02d:%02d' % (now.hour, now.minute, now.second)
+
+# add two numbers with another queue
+print "add two numbers with another queue"
+result = celeryAddOndifferentQueue.delay(3, 4)
+print "5 + 2 = %s" % result.get()

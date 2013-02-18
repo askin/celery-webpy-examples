@@ -49,3 +49,9 @@ def celeryMultiple(x, y):
 @task
 def celerySquare(x):
     return x * x
+
+@task(queue='add-queue', name='add_queue')
+def celeryAddOndifferentQueue(x, y):
+    """Run add operation on different queue named 'add-queue'
+    """
+    return x + y
