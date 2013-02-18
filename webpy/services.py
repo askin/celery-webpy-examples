@@ -41,6 +41,7 @@ class service:
     def square(self, arg):
         return arg * arg
 
+
 class CeleryService:
     def GET(self, op, arg1, arg2=None):
         template = '{"status" : "success", "retval" : %s}'
@@ -83,6 +84,7 @@ class CeleryService:
 class index:
     def GET(self):
         return "Hello World"
+
 
 class Roulette:
     def GET(self, param=None):
