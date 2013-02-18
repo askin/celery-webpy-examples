@@ -6,6 +6,8 @@ from tasks import celeryAdd
 from tasks import celeryDiff
 from tasks import celeryMultiple
 from tasks import celerySquare
+from tasks import celeryAddOndifferentQueue
+from tasks import celeryRoluette
 
 from tasks import remoteAdd
 from tasks import remoteDiff
@@ -36,5 +38,11 @@ print '%02d:%02d:%02d' % (now.hour, now.minute, now.second)
 
 # add two numbers with another queue
 print "add two numbers with another queue"
+print "you have to add 'add-queue' consumer to celery"
 result = celeryAddOndifferentQueue.delay(3, 4)
 print "5 + 2 = %s" % result.get()
+
+# test retry operations
+print "test retry operations"
+result = celeryRoluette.apply_async((), retry=True)
+print "Result %s" % result.get()
