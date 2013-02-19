@@ -14,6 +14,8 @@ from tasks import remoteDiff
 from tasks import remoteMultiple
 from tasks import remoteSquare
 
+from tasks import Roulette
+
 # web service request with celery
 print 'web service request with celery'
 result = remoteAdd.delay(5, 2)
@@ -58,3 +60,9 @@ print "you have to add 'new-queue' consumer"
 print "cmd: celery control add_consumer new-queue"
 result = celeryAdd.apply_async((5, 2), queue='new-queue')
 print "Result %s" % result.get()
+
+# limitless retry example
+print "limitless retry example"
+r = Roulette()
+result = r.apply_async((), retry=True)
+print "Result: %s" % result.get()
