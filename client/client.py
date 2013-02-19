@@ -39,10 +39,21 @@ print '%02d:%02d:%02d' % (now.hour, now.minute, now.second)
 # add two numbers with another queue
 print "add two numbers with another queue"
 print "you have to add 'add-queue' consumer to celery"
+print "cmd: celery control add_consumer add-queue"
 result = celeryAddOndifferentQueue.delay(3, 4)
 print "5 + 2 = %s" % result.get()
 
 # test retry operations
 print "test retry operations"
-result = celeryRoluette.apply_async((), retry=True)
+try:
+    result = celeryRoluette.apply_async((), retry=True)
+    print "Result %s" % result.get()
+except:
+    print "Task fails!!!"
+
+# add tasks to another queue
+print "add tasks to another queue"
+print "you have to add 'new-queue' consumer"
+print "cmd: celery control add_consumer new-queue"
+result = celeryAdd.apply_async((5, 2), queue='new-queue')
 print "Result %s" % result.get()
