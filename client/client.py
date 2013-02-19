@@ -29,6 +29,7 @@ while not result.ready():
 print '5 + 2 = %s' % result.get()
 
 # add two numbers after 10 seconds
+print "Add two number after 10 seconds."
 now = datetime.now()
 print '%02d:%02d:%02d' % (now.hour, now.minute, now.second)
 result = celeryAdd.apply_async((5, 2), countdown=10)
