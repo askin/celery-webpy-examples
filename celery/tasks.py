@@ -1,4 +1,5 @@
 from celery.task import task
+from celery.task import Task
 from celery.task.http import HttpDispatchTask
 from random import randrange
 
@@ -74,6 +75,7 @@ def remoteRoluette(count=0):
 
 @task
 def celeryRoluette(count=0):
+    celeryRoluette.max_retries = None
     """Call roulette service
     """
     if randrange(1, 100) % 5 == 0:
@@ -84,3 +86,24 @@ def celeryRoluette(count=0):
         raise celeryRoluette.retry((count + 1,),
                                    exc=Exception("No no no %s" % count),
                                    countdown=2)
+
+class Roulette(Task):
+    """Inherits from Task class
+    it is example for limitless retry example
+    """
+    def __init__(self):
+        # override self.max_retries (limitless)
+        Task.max_retries = None
+
+    # override run method
+    def run (self, *args, **kwargs):
+        """Call roulette service
+        """
+        if randrange(1, 100) % 31 == 0:
+            print True
+            return True
+        else:
+            print "Retry"
+            raise self.retry((),
+                             exc=Exception("No no no"),
+                             countdown=1)
