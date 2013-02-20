@@ -107,3 +107,21 @@ class Roulette(Task):
             raise self.retry((),
                              exc=Exception("No no no"),
                              countdown=1)
+
+
+class LimittedTask(Task):
+    """Inherits from Task class
+    it is example for limited rate task
+    """
+    def __init__(self):
+        # override rate_limit (5 task in a minute)
+        # Task.rate_limit = '5/m'
+
+    # override run method
+    def run (self, x, y, *args, **kwargs):
+        """Call task
+        """
+        res = HttpDispatchTask.delay(
+            url='http://localhost:8080/service/multiple/%s/%s' % (x, y),
+            method='GET')
+        return res
