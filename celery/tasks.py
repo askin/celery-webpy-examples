@@ -115,7 +115,7 @@ class LimittedTask(Task):
     """
     def __init__(self):
         # override rate_limit (5 task in a minute)
-        # Task.rate_limit = '5/m'
+        Task.rate_limit = '5/m'
 
     # override run method
     def run (self, x, y, *args, **kwargs):
