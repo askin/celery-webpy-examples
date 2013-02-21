@@ -21,7 +21,13 @@ print 'web service request with celery'
 result = remoteAdd.delay(5, 2)
 while not result.ready():
     pass
-print '5 + 2 = %s' % result.get()
+
+# web service returns, wait task
+task_result = result.get()
+while not task_result.ready():
+    pass
+
+print '5 + 2 = %s' % task_result.get()
 
 # add two numbers on celery
 print 'add two numbers on celery'
