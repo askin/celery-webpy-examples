@@ -3,10 +3,12 @@ from celery.task import Task
 from celery.task.http import HttpDispatchTask
 from random import randrange
 
+
 @task
 def add(x, y):
     print "I received %s %s" % (x, y)
     return x + y
+
 
 @task
 def remoteAdd(x, y):
@@ -19,12 +21,14 @@ def remoteAdd(x, y):
     # you have to double get
     return res
 
+
 @task
 def remoteMultiple(x, y):
     res = HttpDispatchTask.delay(
         url='http://localhost:8080/service/mutiple/%s/%s' % (x, y),
         method='GET')
     return res.get()
+
 
 @task
 def remoteSquare(x, y):
@@ -33,6 +37,7 @@ def remoteSquare(x, y):
         method='GET')
     return res.get()
 
+
 @task
 def remoteDiff(x, y):
     res = HttpDispatchTask.delay(
@@ -40,27 +45,33 @@ def remoteDiff(x, y):
         method='GET')
     return res.get()
 
+
 @task
 def celeryAdd(x, y):
     return x + y
+
 
 @task
 def celeryDiff(x, y):
     return x - y
 
+
 @task
 def celeryMultiple(x, y):
     return x * y
 
+
 @task
 def celerySquare(x):
     return x * x
+
 
 @task(queue='add-queue', name='add_queue')
 def celeryAddOndifferentQueue(x, y):
     """Run add operation on different queue named 'add-queue'
     """
     return x + y
+
 
 @task
 def remoteRoluette(count=0):
@@ -77,6 +88,7 @@ def remoteRoluette(count=0):
                              exc=e,
                              countdown=2)
 
+
 @task
 def celeryRoluette(count=0):
     celeryRoluette.max_retries = None
@@ -91,6 +103,7 @@ def celeryRoluette(count=0):
                                    exc=Exception("No no no %s" % count),
                                    countdown=2)
 
+
 class Roulette(Task):
     """Inherits from Task class
     it is example for limitless retry example
@@ -100,7 +113,7 @@ class Roulette(Task):
         Task.max_retries = None
 
     # override run method
-    def run (self, *args, **kwargs):
+    def run(self, *args, **kwargs):
         """Call roulette service
         """
         if randrange(1, 100) % 31 == 0:
@@ -122,7 +135,7 @@ class LimittedTask(Task):
         Task.rate_limit = '30/m'
 
     # override run method
-    def run (self, x, y, *args, **kwargs):
+    def run(self, x, y, *args, **kwargs):
         """Call task
         """
         res = HttpDispatchTask.delay(
