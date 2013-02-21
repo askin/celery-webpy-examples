@@ -10,10 +10,14 @@ def add(x, y):
 
 @task
 def remoteAdd(x, y):
+    """Add two numbers on web service
+    """
     res = HttpDispatchTask.delay(
         url='http://localhost:8080/service/add/%s/%s' % (x, y),
         method='GET')
-    return res.get()
+
+    # you have to double get
+    return res
 
 @task
 def remoteMultiple(x, y):
@@ -114,8 +118,8 @@ class LimittedTask(Task):
     it is example for limited rate task
     """
     def __init__(self):
-        # override rate_limit (5 task in a minute)
-        Task.rate_limit = '5/m'
+        # override rate_limit (30 task in a minute)
+        Task.rate_limit = '30/m'
 
     # override run method
     def run (self, x, y, *args, **kwargs):
